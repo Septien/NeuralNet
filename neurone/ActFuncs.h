@@ -21,7 +21,7 @@ double piecewiceAF(double y)
 double signumAF(double y)
 {
     double e = 0.00001;     //Epsilon
-    return ((y - e) > 0 ? 1 : ( (y + e) < 0 ? -1 : 0))
+    return ((y - e) > 0 ? 1 : ( (y + e) < 0 ? -1 : 0));
 }
 
 double tanhAF(double y)
