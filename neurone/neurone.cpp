@@ -7,6 +7,7 @@ neuron::neuron() {
     output = 0;
     actFunction = NULL;
     w_size = 0;
+    delta = 0;
 }
 
 neuron::neuron(double *w, int n) {
@@ -15,6 +16,7 @@ neuron::neuron(double *w, int n) {
     bias = 0;
     actFunction = NULL;
     output = 0;
+    delta = 0;
 }
 
 neuron::neuron(double *w, int n, double b)  {
@@ -23,8 +25,8 @@ neuron::neuron(double *w, int n, double b)  {
     bias = b;
     actFunction = NULL;
     output = 0;
+    delta = 0;
 }
-
 
 neuron::neuron(double *w, int n, double b, double (*actFunc)(double))  {
     w_size = n;
@@ -32,6 +34,7 @@ neuron::neuron(double *w, int n, double b, double (*actFunc)(double))  {
     bias = b;
     actFunction = actFunc;
     output = 0;
+    delta = 0;
 }
 
 void neuron::setWeights(double *w) {
@@ -41,6 +44,16 @@ void neuron::setWeights(double *w) {
     weights = new double[w_size];
     for (int i = 0; i < w_size; i++)
         weights[i] = w[i];
+}
+
+void neuron::setIthWeight(double w, int i)
+{
+    if (i < 0 || i >= w_size)
+    {
+        std::cout << "Index out of bounds" << std::endl;
+        return;
+    }
+    weights[i] = w;
 }
 
 void neuron::getWeights(const double **w) {
@@ -54,6 +67,32 @@ void neuron::initializeRandomWeights() {
         weights[i] = (((double)rand()) / ((double)RAND_MAX)) * 1;
     /// Init bias
     bias = (((double)rand()) / ((double)RAND_MAX)) * 1;
+}
+
+double neuron::get_Wsize()
+{
+    return w_size;
+}
+
+double neuron::getIthWeight(int i)
+{
+    if (i < 0 || i >= w_size)
+    {
+        std::cout << "Index out of range" << std::endl;
+        return -1;
+    }
+
+    return weights[0];
+}
+
+void neuron::setDelta(double d)
+{
+    delta = d;
+}
+
+double neuron::getDelta()
+{
+    return delta;
 }
 
 void neuron::setWeightSize(int n) {

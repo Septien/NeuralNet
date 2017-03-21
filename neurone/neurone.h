@@ -10,6 +10,7 @@ private:
     double *weights;
     double bias;
     double output;
+    double delta;
     //Activation function
     double (*actFunction)(double);
 
@@ -20,11 +21,17 @@ public:
     neuron(double *, int, double, double (*actFunc)(double));
 
     void setWeights(double *);
+    void setIthWeight(double, int);
     void getWeights(const double **);
+    double getIthWeight(int);
     void initializeRandomWeights();
+    double get_Wsize();
+    int getWeightSize();
+
+    void setDelta(double);
+    double getDelta();
 
     void setWeightSize(int);
-    int getWeightSize();
 
     void setBias(double);
     double getBias();
