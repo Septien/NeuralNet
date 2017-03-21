@@ -48,4 +48,6 @@ public:
     ~neuron();
 };
 
+void initNeuron(neuron &, int, double (*actFunct)(double));
+
 #endif // NEURONE_H_INCLUDED

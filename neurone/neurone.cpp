@@ -101,6 +101,8 @@ double neuron::getDelta()
 
 void neuron::setWeightSize(int n) {
     w_size = n;
+    if (!weights)
+        weights = new double[w_size];
 }
 
 int neuron::getWeightSize() {
@@ -162,4 +164,14 @@ neuron::~neuron() {
     if (weights)
         delete weights;
     actFunction = NULL;
+}
+
+/**
+** Initialize a neuron with the given values
+*/
+void initNeuron(neuron &n, int weightSize, double (*actFunct)(double))
+{
+    n.setWeightSize(weightSize);
+    n.initializeRandomWeights();
+    n.setActFunction(actFunct);
 }
