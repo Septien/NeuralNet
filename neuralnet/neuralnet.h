@@ -2,6 +2,7 @@
 #define NEURALNET_H_INCLUDED
 
 #include <fstream>
+#include <string>
 #include "../neurone/neurone.h"
 using namespace std;
 

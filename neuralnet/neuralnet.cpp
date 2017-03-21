@@ -41,38 +41,22 @@ void neuralnet::init(double a, double (*actFunct)(double))
 
     /// Initialize input layer
     for (i = 0; i < nn_input; i++)
-    {
-        input[i].setWeightSize(nn_input);
-        input[i].initializeRandomWeights();
-        input[i].setActFunction(actFunct);
-    }
+        initNeuron(input[i], nn_input, actFunct);
 
     /// Initialize hidden layers
 
     /// Initialize first hidden layer
     for (i = 0; i < nn_hlayer[0]; i++)
-    {
-        hidden_layers[0][i].setWeightSize(nn_input);
-        hidden_layers[0][i].initializeRandomWeights();
-        hidden_layers[0][i].setActFunction(actFunct);
-    }
+        initNeuron(hidden_layers[0][i], nn_input, actFunct);
 
     /// Initialize the rest
     for (i = 1; i < nh_layer; i++)
         for (j = 0; j < nn_hlayer[i]; j++)
-        {
-            hidden_layers[i][j].setWeightSize(nn_hlayer[i - 1]);
-            hidden_layers[i][j].initializeRandomWeights();
-            hidden_layers[i][j].setActFunction(actFunct);
-        }
+            initNeuron(hidden_layers[i][j], nn_hlayer[i - 1], actFunct);
 
     /// Initialize output layer
     for (i = 0; i < nn_output; i++)
-    {
-        output[i].setWeightSize(nn_hlayer[nh_layer - 1]);
-        output[i].initializeRandomWeights();
-        output[i].setActFunction(actFunct);
-    }
+        initNeuron(output[i], nn_hlayer[nh_layer - 1], actFunct);
 }
 
 void neuralnet::feedforward(double *x)
@@ -107,6 +91,8 @@ void neuralnet::feedforward(double *x)
         output[i].compute(o);
         net_output[i] = output[i].getOutput();
     }
+
+    delete[] o;
 }
 
 /**
@@ -245,6 +231,7 @@ void neuralnet::backpropagation(double *x, double *d)
 void neuralnet::train(double **x, double **d, int sizeX, int totalIter)
 {
     int i, numIter;
+    char *filename;
 
     cout << "Training network" << endl;
     numIter = 0;
@@ -252,6 +239,13 @@ void neuralnet::train(double **x, double **d, int sizeX, int totalIter)
     {
         for (i = 0; i < sizeX; i++)
             backpropagation(x[i], d[i]);
+        if (numIter % 50 == 0)
+        {
+            filename = "./nets/neuralnetIter_";
+            sprintf(filename, "%d", i+1);
+            saveNettoFile(filename);
+            delete[] filename;
+        }
     }
 
     cout << "Train complete" << endl;
