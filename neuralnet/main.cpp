@@ -1,4 +1,5 @@
 #include <iostream>
+#include "neuralnet.h"
 
 using namespace std;
 

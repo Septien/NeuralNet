@@ -125,7 +125,7 @@ void adjustWeights(double alpha, neuron **curr_layer, int size_curr, neuron **pr
 {
     if (!curr_layer)
     {
-        std::cout << "No current layer available" << std::endl;
+        cout << "No current layer available" << endl;
         return;
     }
 
@@ -192,7 +192,7 @@ void neuralnet::backpropagation(double *x, double *d)
 {
     if (!x || !d)
     {
-        std::cout << "NULL arrays" << std::endl;
+        cout << "NULL arrays" << endl;
         return;
     }
 
@@ -264,6 +264,56 @@ void neuralnet::getOutput(double **out)
 
     for (int i = 0; i < nn_output; i++)
         *out[i] = net_output[i];
+}
+
+/**
+** Save the weights of the layer.
+*/
+void saveWeight(neuron *layer, int sizeLayer, int sizeWeights, ofstream &out)
+{
+    int i;
+    double *w;
+    w = new double[sizeWeights];
+    for (i = 0; i < sizeLayer; i++)
+    {
+        layer[i].getWeights(&w);
+        out << w << "\n";
+    }
+    delete[] w;
+}
+
+/**
+** Save the net to the 'filename' file
+*/
+void neuralnet::saveNettoFile(char *filename)
+{
+    int i, j;
+    double *w;
+    ofstream outfile;
+    outfile.open(filename);
+    // Number of layers
+    outfile << "1 " << nh_layer << " 1\n";
+    // Save inputs of the input layer
+
+    // Number of neurons in the first layer. It is also the number of weights
+    outfile << nn_input << "\n";
+    saveWeight(input, nn_input, nn_input, outfile);
+
+    // Save weights of the hidden layers
+    outfile << nn_hlayer[0] << "\n";
+    saveWeight(hidden_layers[0], nn_hlayer[0], nn_input, outfile);
+    for (i = 1; i < nh_layer; i++)
+    {
+        // Number of neurons in the ith hidden layer
+        outfile << nn_hlayer[i] << "\n";
+        saveWeight(hidden_layers[i], nn_hlayer[i], nn_hlayer[i - 1], outfile);
+    }
+
+    // Save weights of the output layer
+    outfile << nn_output << "\n";
+    saveWeight(output, nn_output, nn_hlayer[nh_layer - 1], outfile);
+
+    outfile.close();
 }
 
 neuralnet::~neuralnet()

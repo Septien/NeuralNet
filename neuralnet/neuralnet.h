@@ -1,7 +1,9 @@
 #ifndef NEURALNET_H_INCLUDED
 #define NEURALNET_H_INCLUDED
 
+#include <fstream>
 #include "../neurone/neurone.h"
+using namespace std;
 
 class neuralnet {
 private:
@@ -27,10 +29,13 @@ public:
     void init(double, double (*actFunc)(double));
     void feedforward(double *);
     void getOutput(double **);
+    void saveNettoFile(char *);
+    void loadNetfromFile(char *);
     void train(double **, double **, int, int);
     ~neuralnet();
 };
 
 void adjustWeights(double, neuron **, int , neuron **, int, neuron **, int, double *, double *);
+void saveWeight(neuron *, int, int, ofstream &);
 
 #endif // NEURALNET_H_INCLUDED
