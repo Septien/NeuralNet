@@ -56,8 +56,12 @@ void neuron::setIthWeight(double w, int i)
     weights[i] = w;
 }
 
-void neuron::getWeights(const double **w) {
-    *w = weights;
+void neuron::getWeights(double **w) {
+    int i;
+    if (!w)
+        return;
+    for (i = 0; i < w_size; i++)
+        *w[i] = weights[i];
 }
 
 void neuron::initializeRandomWeights() {

@@ -22,7 +22,7 @@ public:
 
     void setWeights(double *);
     void setIthWeight(double, int);
-    void getWeights(const double **);
+    void getWeights(double **);
     double getIthWeight(int);
     void initializeRandomWeights();
     double get_Wsize();
