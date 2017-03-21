@@ -19,15 +19,18 @@ private:
     /// Output of the net
     double *net_output;
 
+    void backpropagation(double *, double *);
+
 public:
     neuralnet();
     neuralnet(int n_input, int n_output, int n_layer, int *hidden);
     void init(double, double (*actFunc)(double));
     void feedforward(double *);
-    void backpropagation(double *);
     void getOutput(double **);
+    void train(double **, double **, int, int);
     ~neuralnet();
 };
 
+void adjustWeights(double, neuron **, int , neuron **, int, neuron **, int, double *, double *);
 
 #endif // NEURALNET_H_INCLUDED
